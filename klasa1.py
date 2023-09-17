@@ -19,15 +19,15 @@ class Card:
         if(colour == 4): self.colour = 'pik'
 
     def points(self):
-        if (self.number == 'J'): return 1
-        elif (self.number == 'Q'): return 2
-        elif (self.number == 'K'): return 3
-        elif (self.number == 'A'): return 4
+        if (self.counter > 10): return self.counter - 10
         else: return 0
+            
     def show(self):
         print('Moja karta to: ' + str(self.number)+' ' +str(self.colour))
+        
     def __eq__(self,other):
         return self.colour==other.colour and self.number==other.number
+      
 class Deck:
     def __init__ (self):
         self.deck=[]
