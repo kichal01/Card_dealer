@@ -67,6 +67,7 @@ class Deck:
         for i in range(len(h)):
            self.honors.remove(h[i]) #actualization of honor list
         return h
+
     def put_numbers(self,x:list): #x is a list of random indexes which should be use to grab honors from the deck
         n=[] #list of prepared numbers
         for i in range (len(x)):
@@ -75,6 +76,7 @@ class Deck:
         for i in range(len(n)):
            self.numbers.remove(n[i]) #actualization of numbers list
         return n 
+
     def remove_distinct_cards(self,sample_cards):
         for i in range(len(sample_cards)):
             self.deck.remove(sample_cards[i])
@@ -94,8 +96,41 @@ class Hand:
             self.number_of_cards+=1
             self.number_of_points+=cards[i].points()
     def show(self):
+        spades = []
+        hearts = []
+        diamonds = []
+        clubs = []
+        spadesStr = '♠ '
+        heartsStr = '♥ '
+        diamondsStr = '♦ '
+        clubsStr = '♣ '
         for i in range(len(self.hand)):
-            self.hand[i].show()
+            if self.hand[i].colour == 'trefl': clubs.append(self.hand[i])
+            elif self.hand[i].colour == 'karo': diamonds.append(self.hand[i])
+            elif self.hand[i].colour == 'kier': hearts.append(self.hand[i])
+            elif self.hand[i].colour == 'pik': spades.append(self.hand[i])
+        spades = sorted(spades, key=lambda x: x.counter*(-1))
+        hearts = sorted(hearts, key=lambda x: x.counter*(-1))
+        diamonds = sorted(diamonds, key=lambda x: x.counter*(-1))
+        clubs = sorted(clubs, key=lambda x: x.counter*(-1))
+
+        for i in range(len(spades)):
+            spadesStr = spadesStr + str(spades[i].number) + ' '
+        print(spadesStr)
+
+        for i in range(len(hearts)):
+            heartsStr = heartsStr + str(hearts[i].number) + ' '
+        print(heartsStr)
+
+        for i in range(len(diamonds)):
+            diamondsStr = diamondsStr + str(diamonds[i].number) + ' '
+        print(diamondsStr)
+
+        for i in range(len(clubs)):
+            clubsStr = clubsStr + str(clubs[i].number) + ' '
+        print(clubsStr)
+            #self.hand[i].show()
+
     def copy(self,hand,board):
         pass
     def points_deal(self,min:int,max:int,deck:Deck):
