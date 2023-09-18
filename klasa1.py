@@ -145,12 +145,52 @@ class Hand:
         for i in range(len(cards)):
             self.hand.append(cards[i])
             self.number_of_cards+=1
-            self.number_of_points+=cards[i].points() 
+            self.number_of_points+=cards[i].points()
 
-    
-            
+    def points_deal2(self,min:int,max:int):
+        deck = Deck()
 
-        
+        if(min<0 or max>37 or min>max):
+            print('pojebalo cie')
+            return 0
+
+        #prepare an array of indexes to exclude from later on
+        availableIndexes=[]
+        for i in range(52):
+            availableIndexes.append(i)
+
+        while(self.number_of_cards<13):
+            #choose a random card
+            randomIndex=random.choice(availableIndexes)
+            card=deck.deck[randomIndex]
+            points=card.points()
+            if(self.number_of_points + points <= max): #if not too much points after adding a new card then add
+                self.hand.append(card)
+                self.number_of_points += points
+                self.number_of_cards += 1
+            availableIndexes.remove(randomIndex)
+
+        while(self.number_of_points < min): #if not enough points keep drawing until you draw enough
+            randomIndex = random.choice(availableIndexes)
+            card = deck.deck[randomIndex]
+            points = card.points()
+            if(self.number_of_points + points <= max):
+                self.hand.append(card)
+                self.number_of_points += points
+                self.number_of_cards += 1
+
+                while(self.number_of_cards>13):
+                    i = 0
+                    pointsToDelete=0
+                    if[self.hand[i].points()==pointsToDelete]:
+                        self.number_of_cards -= 1
+                        self.number_of_points -= self.hand[i].points()
+                        self.hand.remove(self.hand[i])
+                    if[i==12]:
+                        i = 0
+                        pointsToDelete+=1
+
+            availableIndexes.remove(randomIndex)
 class Board:
     def __init__ (self,N:Hand,E:Hand,S:Hand,W:Hand,n:int):
         self.N=N
