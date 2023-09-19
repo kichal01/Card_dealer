@@ -46,17 +46,10 @@ class Deck:
      
     def put_cards(self,x:list): #x is a list of random indexes which should be used to grab cards from the deck
         s=[] #list of prepared cards
-        h=[] #list of prepared honors
-        n=[] #list of prepared numbers
+
         for i in range (len(x)):
             s.append(self.deck[x[i]])
-            if(self.deck[x[i]].counter>10):h.append(self.deck[x[i]])
-            else:n.append(self.deck[x[i]])
         self.deck = [self.deck[i] for i in range(len(self.deck)) if i not in x]
-        for i in range(len(h)):
-           self.honors.remove(h[i])
-        for i in range(len(n)):
-           self.numbers.remove(n[i])
         return s
     
     def put_honors(self,x:list): #x is a list of random indexes which should be use to grab honors from the deck
@@ -135,8 +128,8 @@ class Hand:
         pass
     def points_deal(self,min:int,max:int,deck:Deck):
         pom = 0
-        deck_copy = copy.copy(deck)
         while(pom==0):
+            deck_copy = copy.copy(deck)
             sample_hand = Hand()
             sample_hand.random_deal(deck_copy)
             if((sample_hand.number_of_points>=min) and (sample_hand.number_of_points<=max)): pom=1
