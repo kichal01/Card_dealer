@@ -180,15 +180,16 @@ class Hand:
                 self.number_of_cards += 1
 
                 while(self.number_of_cards>13):
-                    i = 0
                     pointsToDelete=0
                     if[self.hand[i].points()==pointsToDelete]:
                         self.number_of_cards -= 1
                         self.number_of_points -= self.hand[i].points()
                         self.hand.remove(self.hand[i])
+                        i=0
                     if[i==12]:
                         i = 0
                         pointsToDelete+=1
+                    i+=1
 
             availableIndexes.remove(randomIndex)
 class Board:
