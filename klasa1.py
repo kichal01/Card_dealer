@@ -1,3 +1,4 @@
+from ast import List
 import random
 import copy
 class Card:
@@ -27,19 +28,30 @@ class Card:
         
     def __eq__(self,other):
         return self.colour==other.colour and self.number==other.number
-      
+    
+    def colour_to_number(self):
+        if(self.colour == 'trefl'): return 0
+        elif(self.colour == 'karo'): return 1
+        elif(self.colour == 'kier'): return 2
+        elif(self.colour == 'pik'): return 3
+        
 class Deck:
-    def __init__ (self):
+    def __init__ (self,*args):
         self.deck=[]
         self.honors=[] #additional list, it'd be helpful while dealing under particular conditions
         self.numbers=[] 
-        for i in range (4):
-            for j in range(13):
-                c = Card(j+2,i+1)
-                self.deck.append(c)
-                if(j+2>10):self.honors.append(c)
-                else:self.numbers.append(c)
-    
+        if (len(args)==0):
+            for i in range (4):
+                for j in range(13):
+                    c = Card(j+2,i+1)
+                    self.deck.append(c)
+                    if(j+2>10):self.honors.append(c)
+                    else:self.numbers.append(c)
+        else:
+            for i in range (len(args[0])):
+                self.deck.append(args[0][i])
+
+
     def show(self):
         for i in range(len(self.deck)):
             self.deck[i].show()  
@@ -81,13 +93,27 @@ class Hand:
         self.hand = []
         self.number_of_cards=0
         self.number_of_points=0
-    def random_deal(self,deck:Deck):
-        num=random.sample(range(0,len(deck.deck)),13)
-        cards = deck.put_cards(num)
+    def random_deal(self,d:Deck):
+        num=random.sample(range(0,len(d.deck)),13)
+        cards = d.put_cards(num)
         for i in range(len(cards)):
             self.hand.append(cards[i])
             self.number_of_cards+=1
             self.number_of_points+=cards[i].points()
+    def random_deal(self,d:Deck, n_of_cards:int):
+        num=random.sample(range(0,len(d.deck)),n_of_cards)
+        cards = d.put_cards(num)
+        for i in range(len(cards)):
+            self.hand.append(cards[i])
+            self.number_of_cards+=1
+            self.number_of_points+=cards[i].points()
+    # def random_deal(self,cards:List, n_of_cards:int):
+    #     num=random.sample(range(0,len(cards)),n_of_cards)
+    #     cards = d.put_cards(num)
+    #     for i in range(len(cards)):
+    #         self.hand.append(cards[i])
+    #         self.number_of_cards+=1
+    #         self.number_of_points+=cards[i].points()
     def show(self):
         spades = []
         hearts = []
@@ -131,7 +157,7 @@ class Hand:
         while(pom==0):
             deck_copy = copy.copy(deck)
             sample_hand = Hand()
-            sample_hand.random_deal(deck_copy)
+            sample_hand.random_deal(deck_copy,13)
             if((sample_hand.number_of_points>=min) and (sample_hand.number_of_points<=max)): pom=1
         deck.remove_distinct_cards(sample_hand.hand)
         cards = sample_hand.hand
@@ -140,52 +166,88 @@ class Hand:
             self.number_of_cards+=1
             self.number_of_points+=cards[i].points()
 
-    def points_deal2(self,min:int,max:int):
-        deck = Deck()
+    # def points_deal2(self,min:int,max:int):
+    #     deck = Deck()
 
-        if(min<0 or max>37 or min>max):
-            print('pojebalo cie')
-            return 0
+    #     if(min<0 or max>37 or min>max):
+    #         print('pojebalo cie')
+    #         return 0
 
-        #prepare an array of indexes to exclude from later on
-        availableIndexes=[]
-        for i in range(52):
-            availableIndexes.append(i)
+    #     #prepare an array of indexes to exclude from later on
+    #     availableIndexes=[]
+    #     for i in range(52):
+    #         availableIndexes.append(i)
 
-        while(self.number_of_cards<13):
-            #choose a random card
-            randomIndex=random.choice(availableIndexes)
-            card=deck.deck[randomIndex]
-            points=card.points()
-            if(self.number_of_points + points <= max): #if not too much points after adding a new card then add
-                self.hand.append(card)
-                self.number_of_points += points
-                self.number_of_cards += 1
-            availableIndexes.remove(randomIndex)
+    #     while(self.number_of_cards<13):
+    #         #choose a random card
+    #         randomIndex=random.choice(availableIndexes)
+    #         card=deck.deck[randomIndex]
+    #         points=card.points()
+    #         if(self.number_of_points + points <= max): #if not too much points after adding a new card then add
+    #             self.hand.append(card)
+    #             self.number_of_points += points
+    #             self.number_of_cards += 1
+    #         availableIndexes.remove(randomIndex)
 
-        while(self.number_of_points < min): #if not enough points keep drawing until you draw enough
-            randomIndex = random.choice(availableIndexes)
-            card = deck.deck[randomIndex]
-            points = card.points()
-            if(self.number_of_points + points <= max):
-                self.hand.append(card)
-                self.number_of_points += points
-                self.number_of_cards += 1
-            availableIndexes.remove(randomIndex)
+    #     while(self.number_of_points < min): #if not enough points keep drawing until you draw enough
+    #         randomIndex = random.choice(availableIndexes)
+    #         card = deck.deck[randomIndex]
+    #         points = card.points()
+    #         if(self.number_of_points + points <= max):
+    #             self.hand.append(card)
+    #             self.number_of_points += points
+    #             self.number_of_cards += 1
+    #         availableIndexes.remove(randomIndex)
 
         
-        while(self.number_of_cards>13):
-            pointsToDelete=0
-            if[self.hand[i].points()==pointsToDelete]:
-                self.number_of_cards -= 1
-                self.number_of_points -= self.hand[i].points()
-                self.hand.remove(self.hand[i])
-                i=0
-            if[i==12]:
-                i = 0
-                pointsToDelete+=1
-            i+=1
-
+    #     while(self.number_of_cards>13):
+    #         pointsToDelete=0
+    #         if[self.hand[i].points()==pointsToDelete]:
+    #             self.number_of_cards -= 1
+    #             self.number_of_points -= self.hand[i].points()
+    #             self.hand.remove(self.hand[i])
+    #             i=0
+    #         if[i==12]:
+    #             i = 0
+    #             pointsToDelete+=1
+    #         i+=1
+    def direct_deal(self, deck, clubs, diamonds, hearts, spades): #using particular number for each color, if doesnt matter then -1
+        
+        self.clubs=clubs
+        self.diamonds=diamonds
+        self.hearts=hearts
+        self.spades=spades
+        array=[clubs,diamonds,hearts,spades]
+        num_of_color = 0
+        rest_of_cards=[]
+        for i in range(4):
+            deck_copy = copy.copy(deck)
+            cards_in_colour = []
+            for j in range (len(deck_copy.deck)):
+                if deck_copy.deck[j].colour_to_number()==i:
+                    cards_in_colour.append(deck_copy.deck[j]) #cards in particular colour possible to get from the deck
+                deck_particular = Deck(cards_in_colour)    
+            if array[i]>0:
+                sample_hand = Hand()
+                sample_hand.random_deal(deck_particular,array[i])   
+                cards = sample_hand.hand
+                for k in range(len(cards)):
+                    self.hand.append(cards[k])
+                    cards_in_colour.remove(cards[k])
+                    self.number_of_cards+=1
+                    self.number_of_points+=cards[k].points()   
+            else:
+                for k in range(len(cards_in_colour)):
+                    rest_of_cards.append(cards_in_colour[k])
+                    
+        l = len(self.hand)
+        num =random.sample(range(0,len(rest_of_cards)),13- l )
+        for i in range (13-l):
+            self.hand.append(rest_of_cards[num[i]])
+            self.number_of_cards+=1
+            self.number_of_points+=rest_of_cards[num[i]].points()
+        deck.remove_distinct_cards(self.hand)    
+                
 class Board:
     def __init__ (self,N:Hand,E:Hand,S:Hand,W:Hand,n:int):
         self.N=N
@@ -200,6 +262,8 @@ class Board:
         self.W.random_deal(deck)
     def point_deal(self,):
         pass
+
+            
         
     
 
