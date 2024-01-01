@@ -119,42 +119,42 @@ class Hand:
             else: return 0 
         elif (key == 'min_clubs'):
             trefle = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'trefl'):
                     trefle+=1
             if (trefle >= value): return 1 
             else: return 0
         elif (key == 'max_clubs'):
             trefle = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'trefl'):
                     trefle+=1
             if (trefle <= value): return 1 
             else: return 0            
         elif (key == 'clubs'):
             trefle = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'trefl'):
                     trefle+=1
             if (trefle == value): return 1 
             else: return 0
         elif (key == 'min_diamonds'):
             kara = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'karo'):
                     kara+=1
             if (kara >= value): return 1 
             else: return 0
         elif (key == 'max_diamonds'):
             kara = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'karo'):
                     kara+=1
             if (kara <= value): return 1 
             else: return 0            
         elif (key == 'diamonds'):
             kara = 0
-            for i in len(self.hand):
+            for i in range( len(self.hand)):
                 if (self.hand[i].colour == 'karo'):
                     trefle+=1
             if (trefle == value): return 1 
@@ -162,21 +162,21 @@ class Hand:
 
         elif (key == 'min_hearts'):
             kiery = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'kier'):
                     kiery+=1
             if (kiery >= value): return 1 
             else: return 0
         elif (key == 'max_hearts'):
             kiery = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'kier'):
                     kiery+=1
             if (kiery <= value): return 1 
             else: return 0            
         elif (key == 'hearts'):
             kiery = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'kier'):
                     kiery+=1
             if (kiery == value): return 1 
@@ -184,21 +184,21 @@ class Hand:
 
         elif (key == 'min_spades'):
             piki = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'pik'):
                     piki+=1
             if (piki >= value): return 1 
             else: return 0
         elif (key == 'max_spades'):
             piki = 0
-            for i in len(self.hand):
+            for i in range (len(self.hand)):
                 if (self.hand[i].colour == 'pik'):
                     piki+=1
             if (piki <= value): return 1 
             else: return 0            
         elif (key == 'spades'):
             piki = 0
-            for i in len(self.hand):
+            for i in range(len(self.hand)):
                 if (self.hand[i].colour == 'pik'):
                     piki+=1
             if (piki == value): return 1 
@@ -210,11 +210,11 @@ class Hand:
         #cards_in_color (min/max cards in color)
         check_box=0
         while check_box==0:
-            d=deck.copy()
+            d=copy.copy(deck)
             sample_hand = Hand()
-            sample_hand = self.random_deal(d)
+            sample_hand.random_deal(d,13)
             for key, value in kwargs.items():
-                result = sample_hand.check_condition(key,value);
+                result = sample_hand.check_conditions(key,value);
                 if result==0:
                     check_box = 0
                     break
