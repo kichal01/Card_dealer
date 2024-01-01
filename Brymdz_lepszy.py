@@ -1,4 +1,4 @@
-from klasa1 import Deck,Card,Hand,Board
+from Board import Deck,Card,Hand,Board
 import random
 deck=Deck()
 N= Hand()
@@ -9,7 +9,7 @@ W= Hand()
 board1=Board(N,E,S,W,1)
 #N.points_deal(0,3,deck)
 N.direct_deal(deck,5,-1,-1,5)
-E.direct_deal(deck,5,-1,-1,-1)
+E.direct_deal(deck,8,-1,-1,-1)
 
 print('N: ')
 N.show()
