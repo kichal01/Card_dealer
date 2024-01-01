@@ -208,10 +208,14 @@ class Hand:
     def many_conditions_deal(self, deck, **kwargs):
         #points
         #cards_in_color (min/max cards in color)
+        i=0
         check_box=0
         while check_box==0:
             d=copy.copy(deck)
             sample_hand = Hand()
+            i+=1
+            if(i>1000):
+                return 0
             sample_hand.random_deal(d,13)
             for key, value in kwargs.items():
                 result = sample_hand.check_conditions(key,value);
