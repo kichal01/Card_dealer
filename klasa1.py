@@ -260,7 +260,7 @@ class Board:
         self.E.random_deal(deck)
         self.S.random_deal(deck)
         self.W.random_deal(deck)
-    def point_deal(self,):
+    def point_deal(self,**hands): #in hands i want sth like 'E-':10, 'E+':14 meaning E hand is supposed to have min 10 points and max 14 points
         pass
 
             
