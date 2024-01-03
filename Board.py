@@ -3,17 +3,31 @@ import copy, datetime
 
                 
 class Board:
-    def __init__ (self,N:Hand,E:Hand,S:Hand,W:Hand,n:int):
+    def __init__ (self,N:Hand,E:Hand,S:Hand,W:Hand,n:int,dealer):
         self.N=N
         self.E=E
         self.S=S
         self.W=W
         self.number = n
+        self.dealer=dealer
     def random_deal(self,deck:Deck):
         self.N.random_deal(deck)
         self.E.random_deal(deck)
         self.S.random_deal(deck)
         self.W.random_deal(deck)
+    def show (self):
+        print('Nr boarda: '+str(self.number))
+        print('N: ')
+        self.N.show()
+        print('E: ')
+        self.E.show()
+        print('S: ')
+        self.S.show()
+        print('W: ')
+        self.W.show()
+        print('')
+    def to_pbn(self):
+        pass
     def deal(self,deck:Deck,N,E,S,W): 
 
 
