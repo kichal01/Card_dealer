@@ -9,6 +9,7 @@ class Card:
         elif (self.counter == 12): self.number = 'Q'
         elif (self.counter == 13): self.number = 'K'
         elif (self.counter == 14): self.number = 'A'
+        elif (self.counter == 10): self.number = 'T'
         else: self.number = counter
         
         if(colour == 1): self.colour = 'trefl'

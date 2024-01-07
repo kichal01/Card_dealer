@@ -3,10 +3,18 @@ import random
 import copy
 
 class Hand:
-    def __init__ (self):
+    def __init__ (self,name = None):
         self.hand = []
         self.number_of_cards=0
-        self.number_of_points=0
+        self.number_of_points=0 
+        if (name=='N' or name =='E' or name =='S' or name =='W'):
+            self.name = name
+    def particular_cards(self, cards, deck:Deck):
+        for i in range(len(cards)):
+            self.hand.append(cards[i])
+            self.number_of_cards+=1
+            self.number_of_points+=cards[i].points()
+        deck.remove_distinct_cards(cards)
     def random_deal(self,d:Deck):
         num=random.sample(range(0,len(d.deck)),13)
         cards = d.put_cards(num)
@@ -21,6 +29,34 @@ class Hand:
             self.hand.append(cards[i])
             self.number_of_cards+=1
             self.number_of_points+=cards[i].points()
+    def is_full(self):
+        if self.number_of_cards == 13:
+            return 1
+        else: return 0
+    def spades(self):
+        spades=[]
+        for i in range(len(self.hand)):
+            if self.hand[i].colour == 'pik': spades.append(self.hand[i])
+        spades = sorted(spades, key=lambda x: x.counter*(-1))
+        return spades
+    def hearts(self):
+        hearts=[]
+        for i in range(len(self.hand)):
+            if self.hand[i].colour == 'kier': hearts.append(self.hand[i])
+        hearts = sorted(hearts, key=lambda x: x.counter*(-1))    
+        return hearts
+    def clubs(self):
+        clubs=[]
+        for i in range(len(self.hand)):
+            if self.hand[i].colour == 'trefl': clubs.append(self.hand[i])
+        clubs = sorted(clubs, key=lambda x: x.counter*(-1))
+        return clubs
+    def diamonds(self):
+        diamonds=[]
+        for i in range(len(self.hand)):
+            if self.hand[i].colour == 'karo': diamonds.append(self.hand[i])
+        diamonds = sorted(diamonds, key=lambda x: x.counter*(-1)) 
+        return diamonds
     def show(self):
         spades = []
         hearts = []
@@ -156,8 +192,8 @@ class Hand:
             kara = 0
             for i in range( len(self.hand)):
                 if (self.hand[i].colour == 'karo'):
-                    trefle+=1
-            if (trefle == value): return 1 
+                    kara+=1
+            if (kara == value): return 1 
             else: return 0 
 
         elif (key == 'min_hearts'):
@@ -230,7 +266,7 @@ class Hand:
             self.hand.append(cards[i])
             self.number_of_cards+=1
             self.number_of_points+=cards[i].points()
-                
+    
     
                 
                 
