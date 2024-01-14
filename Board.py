@@ -59,7 +59,15 @@ class Board:
             pbn = pbn +' ' 
         pbn = pbn[:-1]
         return pbn
-
+    
+    def stats(self, all:dict, results, hand:str):
+        colours = ['NT','S','H','D','C']
+        for i in range(5):
+            ile = all.get(hand).get(colours[i]) - 6
+            if(ile>0):
+                results.get(colours[i])[str(ile)] += 1
+        return results
+        
     def double_dummy(self,pbn):
         PBN = pbn.encode('utf-8')
         all = ddstable.get_ddstable(PBN)
@@ -74,13 +82,12 @@ class Board:
         #         else:
         #             print(" {:>5}".format("-"),end='')
         #     print("")
-        return all.get('W').get('S')-6 # ten fragment liczy tylko grê w piki gracza W, do poprawy
+        return all 
             
     def deal(self,deck:Deck,N,E,S,W): 
 
 
 
-        #Run the loop till current time exceeds end time
         i=0
         while i <10000:
 

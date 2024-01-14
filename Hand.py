@@ -238,7 +238,21 @@ class Hand:
                 if (self.hand[i].colour == 'pik'):
                     piki+=1
             if (piki == value): return 1 
-            else: return 0     
+            else: return 0  
+        elif (key == 'major'):
+            piki = 0
+            kiery = 0
+            for i in range(len(self.hand)):
+                if (self.hand[i].colour == 'pik'):
+                    piki+=1
+                        
+            for i in range (len(self.hand)):
+                if (self.hand[i].colour == 'kier'):
+                    kiery+=1
+            if (piki == value or kiery ==value): return 1
+            else: return 0
+
+            
 
             
     def many_conditions_deal(self, deck, **kwargs):
@@ -250,7 +264,7 @@ class Hand:
             d=copy.copy(deck)
             sample_hand = Hand()
             i+=1
-            if(i>1000):
+            if(i>300):
                 return 0
             sample_hand.random_deal(d,13)
             for key, value in kwargs.items():
